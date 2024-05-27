@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<center>
+<h2>My Cart</h2></center>
+<div class="container">
+    <div class="row">
+        <div class="col-6"><table class="table table-bordered">
+            <tr><th colspan="5">Cart Items</th> </tr>
+            {% for i in c %}
+            <tr>
+                <td><img src="{{i.product.image.url}}" height="100px"width="100px"></td>
+            <td>{{i.product.name}}</td>
+                <td><h6>product id:{{i.product.id}}</h6>
+                <h6>price:{{i.product.price}}</h6>
+                <h6>quantity:{{i.quantity}}</h6>
+                <h5>subtotal:{{i.subtotal}}</h5></td>
+                <td>
+                    {% if i.product.stock > 0 %}
+
+                    <a href="{% url 'cart:addtocart' i.product.name %}"><i class="fa-solid fa-plus text-secondary fs-5"></i></a>
+                    <a href="{% url 'cart:cartremove' i.product.name %}"><i class="fa-solid fa-minus text-secondary fs-5"></i></a>
+                    <a href="{% url 'cart:cartdelete' i.product.name %}"><i class="fa-solid fa-trash text-danger fs-5"></i></a>
+
+                    {% else %}
+
+                    <a href="{% url 'cart:cartremove' i.product.name %}"><i class="fa-solid fa-minus text-secondary fs-5"></i></a>
+                    <a href="{% url 'cart:cartdelete' i.product.name %}"><i class="fa-solid fa-trash text-secondary fs-5"></i></a>
+
+                    {% endif %}
+
+
+                </td>
+
+            </tr>
+            {% endfor %}
+
+        </table></div>
+        <div class="col-4" style="position:relative" ><table class="table table-bordered">
+            <tr><th colspan="5">Check Out</th></tr>
+            <tr><td>Total : {{total}}</td></tr>
+        </table>
+            <a href="{% url 'cart:orderform' %}" class="btn btn-danger" style="position:absolute;left:10px;">Place order</a>
+            <a href="{% url 'shop:allcat' %}" class="btn btn-danger" style="position:absolute;right:10px;">Continue shopping</a>
+        </div>
+    </div>
+</div>
+<br><br>
+
+
+
+{% endblock %}
